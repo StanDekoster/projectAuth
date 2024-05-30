@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class UserSeeder extends Seeder
 {
@@ -18,21 +19,21 @@ class UserSeeder extends Seeder
                 [
                     'name' =>'admin',
                     'email'=>'admin@ehb.be',
-                    'password'=>'Password!321',
+                    'password' => Hash::make('Password!321'),//chatgpt
                     'isAdmin' =>true,
                     'isWorker' =>true
                 ],
                 [
                     'name' =>'Ronny',
                     'email'=>'ronny@ronny.ronny',
-                    'password'=>'ronny123',
+                    'password' => Hash::make('ronny123'),//chatgpt
                     'isAdmin' =>false,
                     'isWorker' =>true
                 ],
                 [
                     'name' =>'Cindy',
                     'email'=>'cindy@cindy.cindy',
-                    'password'=>'cindy123',
+                    'password' => Hash::make('cindy123'),//chatgpt
                     'isAdmin' =>false,
                     'isWorker' =>false
                 ],

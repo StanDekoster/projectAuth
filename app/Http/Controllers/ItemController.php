@@ -27,10 +27,16 @@ class ItemController extends Controller
 
     public function welcome()
     {
-        $items = Item::with('user')->get();
-       
+        $user = Auth::user();
 
-        return view('welcome', compact('items'));
+        // Check a variable of the current user, e.g., 'role'
+        if ($user->isAdmin == true) {
+            // Perform some action if the user is an admin
+            return view('admin.dashboard');
+        } else {
+            // Perform some other action if the user is not an admin
+            return view('user.dashboard');
+        }
     }
 
     /**
