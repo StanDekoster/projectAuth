@@ -1,4 +1,4 @@
-@if(auth()->user()->isAdmin == true)
+
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
@@ -22,13 +22,14 @@
                         
                         <u><bold style="margin-left: 100px">User status</bold></u>
                          
-
+                        @if(auth()->user()->isAdmin == true)   
                         <div style="margin-left: 100px;border-width: 2px; border-color:black ; padding: 2px;display:inline-block">
                         <form  action="{{route('appoint.admin',$user)}}" method="POST">
                             @csrf
                             @method('PUT')
                         <button type="submit" >Appoint to admin</button>  
                         </div>
+                        @endif
                         @endif
 
                     </div>   
@@ -40,4 +41,3 @@
     @endif
 
 </x-app-layout>
-@endif

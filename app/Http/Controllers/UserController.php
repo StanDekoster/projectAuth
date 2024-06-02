@@ -5,26 +5,25 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 
+use App\Models\Item;
+
+
+use App\Models\Tag;
+use App\Models\Like;
+
+use App\HTTP\Controllers\Tags;
+use App\HTTP\Controllers\Likes;
+use Illuminate\Support\Facades\Auth;
+
 class UserController extends Controller
 {
-    public function userList(){}
-
-    public function adminUserList()
-    {
+    public function userList(){
         $users = User::all();
         
-        return view('admin.user-list',compact('users'));
+        return view('data.user-list',compact('users'));
     }
 
-    public function appointAdmin($id) //chatgpt
-    {
-       $user = User::find($id);
-
-        $user->isAdmin = true;
-
-        $user->save();
-        
-        return redirect(route('admin.user.list'));
+    public function userDashboard(){
+        return view('user.dashboard');
     }
-
 }

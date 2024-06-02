@@ -30,6 +30,13 @@ new #[Layout('layouts.guest')] class extends Component
 
         event(new Registered($user = User::create($validated)));
 
+        $profile = new Profile();
+        
+        $profile -> username =  $validated['name'];
+        $profile -> email =  $validated['email'];
+        $profile-> user_id = $user->id;
+        $profile->save();
+
         Auth::login($user);
 
         $this->redirect(route('dashboard', absolute: false), navigate: true);

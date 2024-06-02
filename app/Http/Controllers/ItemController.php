@@ -32,10 +32,10 @@ class ItemController extends Controller
         // Check a variable of the current user, e.g., 'role'
         if ($user->isAdmin == true) {
             // Perform some action if the user is an admin
-            return view('admin.dashboard');
+            return redirect(route('admin.dashboard'));
         } else {
             // Perform some other action if the user is not an admin
-            return view('user.dashboard');
+            return redirect(route('user.dashboard'));
         }
     }
 
@@ -70,7 +70,7 @@ class ItemController extends Controller
         
 
         $item->save();
-        $items = Item::all();
+        
        
 
         return redirect()->route('dashboard');
