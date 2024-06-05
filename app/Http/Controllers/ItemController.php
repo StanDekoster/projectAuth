@@ -11,12 +11,28 @@ use Illuminate\Http\Request;
 use App\HTTP\Controllers\Tags;
 use App\HTTP\Controllers\Likes;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class ItemController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
+
+     public function about()
+    {
+
+        return view('about');
+    }
+
+    public function visitorIndex()
+    {
+       
+       $items = Item::All();
+
+        return view('welcome',compact('items'));
+    }
+
     public function index()
     {
         $items = Item::with('user')->get();
@@ -25,19 +41,7 @@ class ItemController extends Controller
         return view('dashboard', compact('items'));
     }
 
-    public function welcome()
-    {
-        $user = Auth::user();
-
-        // Check a variable of the current user, e.g., 'role'
-        if ($user->isAdmin == true) {
-            // Perform some action if the user is an admin
-            return redirect(route('admin.dashboard'));
-        } else {
-            // Perform some other action if the user is not an admin
-            return redirect(route('user.dashboard'));
-        }
-    }
+   
 
     /**
      * Show the form for creating a new resource.
@@ -55,17 +59,19 @@ class ItemController extends Controller
         $validator = $request->validate([
             'title' => 'required|max:255',
             'description' =>'required|max:255',
-            'tag' => 'required|max:255'
+            'coverImage' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+
         ]);
 
         $item = new Item;
         $item->user_id = Auth::id();
         $item->title = $validator['title'];
         $item->description = $validator['description'];
-        
+        $coverImagePath = $request->file('coverImage')->store('coverImages', 'public');
+        $item->coverImage = $coverImagePath;
 
        
-        $item->tag = $validator['tag'];
+        
         
         
 
@@ -73,7 +79,10 @@ class ItemController extends Controller
         
        
 
-        return redirect()->route('dashboard');
+        return redirect()->route('admin.items');
+        
+
+        
     }
 
     /**
@@ -106,16 +115,27 @@ class ItemController extends Controller
     {
         $validator = $request->validate([
             'title' => 'required|max:255',
-            'description' =>'required|max:255',
-            'tag' => 'required|max:255'
+            'description' =>'required',
+            'coverImage' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048,'
         ]);
+
+        if ($request->hasFile('coverImage')) {
+            // Delete old coverImage if it exists
+            if ($item->coverImage) {
+                Storage::delete($item->coverImage);
+            }
+    
+            // Store new coverImage
+            $coverImagePath = $request->file('coverImage')->store('coverImages', 'public');
+            $item->coverImage = $coverImagePath;
+        }
 
         $item->title = $validator['title'];
         $item->description = $validator['description'];
 
         $item->save();
 
-        return redirect(route('dashboard'));
+        return redirect(route('admin.items'));
     }
 
     /**

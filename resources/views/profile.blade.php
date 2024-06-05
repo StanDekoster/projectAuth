@@ -19,13 +19,19 @@
                @if (isset($user->profile))
                <br>
                <div class="flex items-center gap-4">
-                <a href="{{route('view.profile',[$user->profile])}}"><u>View Profile</u></a>
+                <a href="{{route('edit.profile',['profile'=>$user->profile])}}"><u>Edit profile</u></a>
+                
+                <br>
+                <br>
+                <a href="{{route('view.profile',[$user->id])}}"><u>View Profile</u></a>
+                    
             </div>
                @else
-               <p>has no profile</p>
+               <br>
+               <p>No profile</p>
                <br>
                <div class="flex items-center gap-4">
-                <a ><u>Create Profile</u></a>
+                <a href="{{route('create.profile')}}"><u>Create Profile</u></a>
             </div>
                @endif
                 </div>

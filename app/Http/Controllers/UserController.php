@@ -26,4 +26,24 @@ class UserController extends Controller
     public function userDashboard(){
         return view('user.dashboard');
     }
+
+    public function visitorUserList(){
+        $users = User::all();
+        
+        return view('visitor.user-list',compact('users'));
+    }
+
+    public function loggedIn()
+    {
+        $user = Auth::user();
+
+        // Check a variable of the current user, e.g., 'role'
+        if ($user->isAdmin == true) {
+            // Perform some action if the user is an admin
+            return redirect(route('admin.dashboard'));
+        } else {
+            // Perform some other action if the user is not an admin
+            return redirect(route('user.dashboard'));
+        }
+    }
 }

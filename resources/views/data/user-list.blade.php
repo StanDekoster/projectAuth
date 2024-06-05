@@ -8,16 +8,21 @@
 
     @if(isset($users))
     @foreach($users as $user)
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+    
+        <div style="margin-top: 10px;margin-bottom:10px" class="max-w-7xl mx-auto sm:px-6 lg:px-8">
            
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6 text-gray-900">
-                        <a href="{{route("create-item")}}"><u>{{$user->name}}</u><a>
+                        @if(isset($user->profile))
+                        <a href="{{route('view.profile',[$user->id])}}"><u>{{$user->name}}</u><a>
+                        @else
+                        <a>{{$user->name}}</a>
+
+                        @endif 
+                            
                         @if($user->isAdmin == true) 
                         <u><bold style="margin-left: 100px">Admin status</bold></u>
                         
-                            
                         @else
                         
                         <u><bold style="margin-left: 100px">User status</bold></u>
@@ -27,13 +32,16 @@
                         <form  action="{{route('appoint.admin',$user)}}" method="POST">
                             @csrf
                             @method('PUT')
-                        <button type="submit" >Appoint to admin</button>  
+                            <button type="submit" onclick="return confirm('Are you sure you want to appoint this user to Admin?');">
+                                Appoint to admin
+                            </button>  
                         </div>
+
                         @endif
                         @endif
 
                     </div>   
-                </div>
+                
         </div> 
 
     </div>

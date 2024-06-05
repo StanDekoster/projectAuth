@@ -12,7 +12,8 @@ class TagController extends Controller
      */
     public function index()
     {
-        //
+        $tags = Tag::All();
+       return view('faq.admin-cat-create',compact('tags'));
     }
 
     /**
@@ -28,7 +29,23 @@ class TagController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validator = $request->validate([
+            'name' => 'required|max:255',
+            
+
+        ]);
+
+        $tag = new Tag;
+       
+        $tag->name = $validator['name'];
+    
+        
+
+        $tag->save();
+        
+       
+
+        return redirect()->route('admin.cat.create');
     }
 
     /**

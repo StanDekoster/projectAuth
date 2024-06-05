@@ -1,3 +1,5 @@
+ 
+
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
@@ -30,40 +32,64 @@
                     <main>
                        
         
+   <!--  @if(isset($users))
+    @foreach($users as $user)
+    <div class="py-12">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+           
+                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                    <div class="p-6 text-gray-900">
+                        @if(isset($user->profile))
+                        <a href="{{route('view.profile',[$user->id])}}"><u>{{$user->name}}</u><a>
+                        @else
+                        <a>{{$user->name}}</a>
+
+                        @endif 
+                            
+                        @if($user->isAdmin == true) 
+                        <u><bold style="margin-left: 100px">Admin status</bold></u>
+                        
+                        @else
+                        
+                        <u><bold style="margin-left: 100px">User status</bold></u>
+                         
                        
-                            @if(isset($items))
-                            @foreach($items as $item)
-                            <div style="border: 2px solid rgb(24, 24, 27);border-radius: 10px;margin:5px; padding:5px;display: flex">
-                                <div style="width: 40%">
-                               <u> <a href="{{route('visitor.item.view',$item)}}">{{ $item->title }}</a> </u>
-                               
-                               
-        
-                               <br><br>
-                               
-                                <img src="{{ asset('storage/' . $item->coverImage) }}" alt="coverImage" class="img-thumbnail" style="width: 150px; height: 150px;">
-                               
-                                </div>
-        
-        
-                               <div style=" display: flex;
-                               flex-direction: column;
-                               justify-content: space-between;">
-                                <p>Created: {{$item->created_at}}</p>
-                                
-                                <p>Updated: {{$item->updated_at}}</p>
-                                
-                               <br>
-                               <br>
-                               <br>
-                               
-                        </div>
-        
-                               
-                                
-                            </div>
-                            @endforeach
-                            @endif
+
+                        
+                        @endif
+
+                    </div>   
+                </div>
+        </div> 
+
+    </div>
+    @endforeach
+    @endif-->
+
+
+    <img src="{{ asset('storage/' . $profile->avatar) }}" alt="Avatar" class="img-thumbnail" style="width: 150px; height: 150px;">
+                    
+                    {{ $profile->username }}
+                     <br>
+                     <br>
+                     <u> <p>E-mail:</p></u>
+                    {{ $profile->email }}
+                     <br>
+                     <br>
+                     <u> <p>Birthday:</p></u>
+                     {{ $profile->birthday }}
+                      <br>
+                      <br>
+                      <u> <p>About me:</p></u>
+                     {{ $profile->aboutme }}
+                      <br>
+                      <br>
+                     
+                      <br>
+                      <br>
+                     
+
+                            <a href="{{route('visitor.user.list')}}"><b><u>Go back</u></b></a>
                         
                     </main>
 

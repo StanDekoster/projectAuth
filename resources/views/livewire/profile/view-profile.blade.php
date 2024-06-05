@@ -13,10 +13,8 @@
             
             
                 <div style="padding : 30px"  class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                    <a href="{{route('edit.profile',['profile'=>$profile])}}"><b><u>Edit profile</u></b></a>
-                    <br>
-                    <br>
-
+                    
+                    
                     
                     <img src="{{ asset('storage/' . $profile->avatar) }}" alt="Avatar" class="img-thumbnail" style="width: 150px; height: 150px;">
                     
@@ -40,7 +38,7 @@
                       <br>
                      
 
-                            <a href="{{route('profile')}}"><b><u>Go back</u></b></a>
+                            <a href="{{route('dashboard')}}"><b><u>Go back</u></b></a>
                      
                             
                         

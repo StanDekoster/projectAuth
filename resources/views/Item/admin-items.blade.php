@@ -8,30 +8,46 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900">
-                    {{ __("You're logged in!") }}
-                </div>
+                
             </div>
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6 text-gray-900">
                         <a href="{{route("create-item")}}"><u>>Create Item<</u><a>
                 </div>
+            </div>
+            <br>
 
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     @if(isset($items))
                     @foreach($items as $item)
-                    <div style="border: 3px solid rgb(24, 24, 27); margin:5px; padding:5px">
+                    <div style="border: 3px solid rgb(24, 24, 27); margin:5px; padding:5px;display: flex">
+                        <div style="width: 40%">
                        <u> <a href="{{route('item.view',['item'=>$item])}}">{{ $item->title }}</a> </u>
                        
-                       <form action="{{ route('item.like', ['item' => $item->id]) }}" method="POST">
-                        @csrf
-                        <button type="submit">Like</button>
-                        </form>
+                       
 
                        <br><br>
-                       <p>By: {{$item->user->name}}<p>
-                       <div style="position:absolute;left : 50%">
                        
+                        <img src="{{ asset('storage/' . $item->coverImage) }}" alt="coverImage" class="img-thumbnail" style="width: 150px; height: 150px;">
+                        <form action="{{ route('item.like', ['item' => $item->id]) }}" method="POST">
+                            @csrf
+                            <button type="submit">Like</button>
+                            </form>
+                        </div>
+
+
+                       <div style=" display: flex;
+                       flex-direction: column;
+                       justify-content: space-between;">
+                        <p>Created: {{$item->created_at}}</p>
+                        
+                        <p>Updated: {{$item->updated_at}}</p>
+                        
+                       <br>
+                       <br>
+                       <br>
+                        <a href="{{route('item.edit', $item)}}">Edit post</a>
+
                        <form action="{{ route('remove.item', $item->id) }}" method="POST">
                         @csrf
                         @method('DELETE')
@@ -41,8 +57,7 @@
                     </form>
                 </div>
 
-                       <br><br>
-                        <a href="{{route('item.edit', $item)}}">Edit post</a>
+                       
                         
                     </div>
                     @endforeach

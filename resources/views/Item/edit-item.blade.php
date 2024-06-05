@@ -16,7 +16,7 @@
             
                 <div  class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <p>ID:</p><p>{{$item->id}}
-                        <form method="POST" action="{{route('item.update', $item)}}">
+                        <form method="POST" action="{{route('item.update', $item)}}"enctype="multipart/form-data">
                             @csrf
                             @method('PUT')
                     
@@ -25,14 +25,32 @@
                             <input name='title' type="text" value="{{ $item->title }}">
                             <br>
                     
-                            <u> <p>Tag:</p></u>
-                            <input name='tag' type="text" value="{{ $item->tag }}">
-                            <br>
+                            <u> <p>Cover image:</p></u>
+                          
+                        
+                        
+            
+                <img src="{{ asset('storage/' . $item->coverImage) }}" id="preview" src="#" alt="New Avatar Preview" class="img-thumbnail" style=" width: 150px; height: 150px;">
+            
+            <input type="file" name="coverImage" id="coverImage"  onchange="previewImage(event)">
+                       
+                        <br>
                             <u> <p>Description:</p></u>
                             <textarea name='description' rows="4" cols="50">{{$item->description}}</textarea>
                             <br>
                             <button type="submit">Edit</button>
                         </form>
+                        <script>
+                            function previewImage(event) {
+                                var reader = new FileReader();
+                                reader.onload = function(){
+                                    var output = document.getElementById('preview');
+                                    output.src = reader.result;
+                                    output.style.display = 'block';
+                                }
+                                reader.readAsDataURL(event.target.files[0]);
+                            }
+                            </script>
                     
                         @if ($errors->any())
                         <div class="alert alert-danger">

@@ -67,9 +67,18 @@ class ProfileController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Profile $profile)
+    public function show($userId)
     {
-        return view('livewire.profile.view-profile',compact('profile'));
+        $user = User::findOrFail($userId);
+        $profile = $user->profile;
+        return view('livewire.profile.view-profile',compact('profile','user'));
+    }
+
+    public function visitorShow($userId)
+    {
+        $user = User::findOrFail($userId);
+        $profile = $user->profile;
+        return view('visitor.view-profile',compact('profile','user'));
     }
 
     /**

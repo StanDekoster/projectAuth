@@ -6,6 +6,7 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 class ItemSeeder extends Seeder
 {
@@ -17,20 +18,29 @@ class ItemSeeder extends Seeder
         DB::Table('items')->insert([
             [
                 'user_id'=> 1,
-                'title'=>'Post van den admin',
-                'description' => 'Beschrijving van Ronny'
+                'title'=>'Post van  admin',
+                'description' => 'Beschrijving van Admin',
+                'coverImage' =>'coverImages/appel.jpg',
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now()
             ],
 
             [
-                'user_id'=> 2,
-                'title'=>'Post van Ronny',
-                'description' => 'Beschrijving van Ronny'
+                'user_id'=> 1,
+                'title'=>'Post 2',
+                'description' => 'Beschrijving 2',
+                'coverImage' =>'coverImages/banaan.jpg',
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now()
             ],
 
             [
-                'user_id'=> 2,
-                'title'=>'Andere post van Ronny',
-                'description' => 'Andere beschrijving van Ronny'
+                'user_id'=> 1,
+                'title'=>'Post 3',
+                'description' => 'Beschrijving 3',
+                'coverImage' =>'coverImages/peer.png',
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now()
             ]
             ]);
     }

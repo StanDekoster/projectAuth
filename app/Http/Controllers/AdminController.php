@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+
 use Illuminate\Http\Request;
 
 use App\Models\User;
+use App\Models\Item;
 
 class AdminController extends Controller
 {
@@ -31,6 +33,13 @@ class AdminController extends Controller
         $user->save();
         
         return redirect(route('admin.user.list'));
+    }
+    
+    public function adminItems()
+    {
+        $items = Item::all();
+        
+        return view('Item.admin-items',compact('items'));
     }
 
 }
