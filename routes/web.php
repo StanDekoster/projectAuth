@@ -8,6 +8,8 @@ use \App\Http\Controllers\AdminController;
 use \App\Http\Controllers\ProfileController;
 use \App\Http\Controllers\Controller;
 use \App\Http\Controllers\TagController;
+use \App\Http\Controllers\MessageController;
+
 
 
 Route::get('/', [ItemController::class,('visitorIndex')])
@@ -50,15 +52,26 @@ Route::get('ok', [ItemController::class, 'show'])->name('item.like');
 //FAQ
 Route::get('/FAQ', [FAQController::class, 'index'])->name('FAQ');
 Route::get('admin/faq', [FAQController::class, 'adminIndex'])->name('admin.faq');
+
 Route::get('admin/faq-create', [FAQController::class, 'create'])->name('admin.faq.create');
 Route::post('admin/faq-store', [FAQController::class, 'store'])->name('faq.store');
+
+
+Route::get('admin/faq/edit/{faq}', [FAQController::class, 'edit'])->name('faq.edit');
+Route::put('admin/faq/update/{faq}', [FAQController::class, 'update'])->name('faq.update');
+
+Route::delete('admin/faq/remove/{faq}', [FaqController::class, 'destroy'])->name('faq.remove');
+
 
 
 //Tag
 Route::get('admin/cat-create', [TagController::class, 'index'])->name('admin.cat.create');
 Route::post('admin/cat-store', [TagController::class, 'store'])->name('cat.store');
+Route::get('admin/cat/edit/{tag}', [TagController::class, 'edit'])->name('cat.edit');
+Route::put('admin/cat/update/{tag}', [TagController::class, 'update'])->name('cat.update');
 
 
+Route::delete('admin/cat/remove/{tag}', [TagController::class, 'destroy'])->name('cat.remove');
 
 
 
@@ -98,6 +111,13 @@ Route::get('admin/newsitems', [AdminController::class, 'adminItems'])->name('adm
 
 Route::put('admin/users/{user}/appoint', [AdminController::class, 'appointAdmin'])->name('appoint.admin');
 
+
+//Messages and Contact
+
+
+
+Route::get('/messages', [MessageController::class, 'index'])->name('messages');
+Route::get('/contact', [MessageController::class, 'contact'])->name('contactform');
 
 
 

@@ -17,14 +17,17 @@ class FAQController extends Controller
      */
     public function index()
     {
-        $f_a_q_s = FAQ::All();
-        return view('faq.index', compact('f_a_q_s'));
+        $tags =Tag::All();
+        $faqs = FAQ::All();
+        return view('faq.index', compact('faqs','tags'));
     }
 
     public function adminIndex()
     {
-        $f_a_q_s = FAQ::All();
-        return view('faq.admin-faq', compact('f_a_q_s'));
+        
+        $tags =Tag::All();
+        $faqs = FAQ::All();
+        return view('faq.admin-faq', compact('tags','faqs'));
     }
 
 
@@ -54,14 +57,24 @@ class FAQController extends Controller
       
         $faq->question = $validator['question'];
         $faq->answer = $validator['answer'];
-       
-
-       
-        
-        
-        
-
         $faq->save();
+        //chatGPT
+        $selectedTags = array_keys($request->except('_token', 'question', 'answer'));
+
+        // Find the tags by their names
+        $selectedTags = array_keys($request->except('_token', 'question', 'answer'));
+
+        // Find the tags by their names
+        $selectedTags = $request->input('tags',[]);
+    
+        // Attach the FAQ to the selected tags
+        $faq->tags()->attach($selectedTags);
+       
+        
+        
+        
+
+        
         
        
 
@@ -74,7 +87,7 @@ class FAQController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(FAQ $fAQ)
+    public function show(FAQ $faq)
     {
         //
     }
@@ -82,24 +95,55 @@ class FAQController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(FAQ $fAQ)
+    public function edit(FAQ $faq)
     {
-        //
+        $tags = Tag::All();
+            return view('faq.admin-faq-edit',compact('faq','tags'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, FAQ $fAQ)
+    public function update(Request $request, FAQ $faq)
     {
-        //
+        $validatorData = $request->validate([
+            'question' => 'required|max:255',
+            'answer' =>'required|max:255',
+            
+
+        ]);
+
+        
+      
+        $faq->question = $validatorData['question'];
+        $faq->answer = $validatorData['answer'];
+        $faq->save();
+        //chatGPT
+        $selectedTags = array_keys($request->except('_token', 'question', 'answer'));
+
+        // Find the tags by their names
+        $selectedTags = $request->input('tags',[]);
+    
+        // Attach the FAQ to the selected tags
+        $faq->tags()->sync($selectedTags);
+       
+        
+        
+        
+
+        
+        
+       
+
+        return redirect()->route('admin.faq');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(FAQ $fAQ)
+    public function destroy(FAQ $faq)
     {
-        //
+        $faq->delete();
+        return redirect()->route('admin.faq');
     }
 }

@@ -20,15 +20,15 @@
             
             
                 <div style="padding: 20px"  class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                    <form method="POST" action="{{route('faq.store')}}" >
+                    <form method="POST" action="{{route('faq.update', $faq)}}" >
                         @csrf
-                        
+                         @method('PUT')
                        <u> <p>Question:</p></u>
-                        <input name="question"  required type="text">
+                        <input name="question"  value="{{$faq->question}}">
                         <br><br>
                         
                         <u> <p>Answer</p></u>
-                        <textarea name='answer' rows="4" cols="50"></textarea>
+                        <textarea name='answer' rows="4" cols="50">{{$faq->answer}}</textarea>
                         <br><br>
 
                         
@@ -37,15 +37,39 @@
                         <br>
                         @foreach($tags as $tag)
                         
-                        <label><input type="checkbox" name="tags[]" value="{{$tag->id}}">  {{$tag->name}}</label>
+                        <label><input type="checkbox" name="tags[]" value="{{$tag->id}}"
+                            
+                            @if($faq->tags->contains($tag->id)) checked @endif>
+                             {{ $tag->name }}</label>
                         <br>
                         @endforeach
                         
                         <br><br>
-                        <button type="submit">Create</button>
-
+                        <div>
+                        <button type="submit">Edit</button> 
+                        </div>
+                            
+                    </div>
                     </form>
-                
+                        <div style="margin-left: 20px">
+                            <br>
+                        <form action="{{ route('faq.remove', $faq->id) }}" method="POST">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" onclick="return confirm('Are you sure you want to delete this Q&A?');">
+                                Remove 
+                            </button>
+                        </form>
+                        <br>
+                    </div>
+                    <hr>
+                    <div style="margin-left: 20px ">
+                        
+                        <br>
+                    <a href="{{route('admin.faq')}}">Go Back<a>
+                    <br>
+                    <br>
+                </div>
                 
                     @if ($errors->any())
                     <div class="alert alert-danger">

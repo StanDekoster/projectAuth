@@ -30,26 +30,64 @@
                     </header>
 
                     <main>
-                       
-        
-                        
+                    
+                            @if(isset($tags))
+                            
 
-                        
-                            @if(isset($f_a_q_s))
-                                @foreach($f_a_q_s as $faq)
+                            @foreach($tags as $tag)
+
+                                
+                                
+                                    @if($tag->faq->isEmpty())
+                                    
+                                    
+                                    
+                                    @else
                                     <div style="border: 2px solid rgb(24, 24, 27);border-radius: 10px; margin:5px; padding:5px">
-                                        <p>{{ $faq->question }}</p>
-                                        <p>{{ $faq->answer }}</p>
-                                    </div>
-                                @endforeach
-                            @endif
-                        
-                        
+                                    <ul>
+                                    <u><h2>{{ $tag->name }}</h2></u><br>
+                                    @foreach($tag->faq as $faq)
+                                    
+                                        <strong>Q:</strong> {{ $faq->question }}<br><br>
+                                        <strong>A:</strong> {{ $faq->answer }}
+                                     
+                                
+                                
+                                    @endforeach
+                                </div>
+                                   @endif
+                                </ul>
                          
+                            @endforeach
+                            <br>
+                            
+                        @endif
+
+                        @if(isset($faqs))
+    
+                        @foreach($faqs as $faq)
+                       
+                       
+                        @if($faq->tags->isEmpty()) 
+                        
+                        <div style="border: 2px solid rgb(24, 24, 27);border-radius: 10px; margin:5px; padding:5px">
+                            
+                                <strong>Q:</strong> {{ $faq->question }}<br><br>
+                                <strong>A:</strong> {{ $faq->answer }}
+                             
+                        
+                        </div>   
+                  <br>
+                @endif
+
+                        @endforeach
+                    
+                    @endif
+                     
                         
                     </main>
 
-                    
+                </div>
                 </div>
             </div>
         </div>

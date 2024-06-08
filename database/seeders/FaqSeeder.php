@@ -13,7 +13,7 @@ class FaqSeeder extends Seeder
      */
     public function run(): void
     {
-        DB::table('f_a_q_s')->insert([
+        DB::table('faqs')->insert([
             [
                 'question' => 'What is this?',
                 'answer' => 'A very important project',

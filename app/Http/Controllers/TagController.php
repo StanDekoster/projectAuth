@@ -61,7 +61,8 @@ class TagController extends Controller
      */
     public function edit(Tag $tag)
     {
-        //
+        $tags = Tag::All();
+        return view('faq.admin-cat-edit',compact('tag','tags'));
     }
 
     /**
@@ -69,7 +70,18 @@ class TagController extends Controller
      */
     public function update(Request $request, Tag $tag)
     {
-        //
+        $validatorData = $request->validate([
+            'name' => 'required|max:255',           
+
+        ]);
+
+        
+      
+        $tag->name = $validatorData['name'];
+        
+        $tag->save();
+        //chatGPT
+        return redirect(route('admin.faq'));
     }
 
     /**
@@ -77,6 +89,8 @@ class TagController extends Controller
      */
     public function destroy(Tag $tag)
     {
-        //
+        $tag->delete();
+
+        return redirect(route('admin.faq'));
     }
 }

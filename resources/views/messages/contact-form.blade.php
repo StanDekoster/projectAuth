@@ -1,5 +1,3 @@
- 
-
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
@@ -30,25 +28,27 @@
                     </header>
 
                     <main>
-                       MODEL:
-
-                        -Grotendeels van
-                       Slides van Backend-web : https://canvas.ehb.be/courses/33788/files/2795558?module_item_id=638169
                        
-                       -ChatGPT voor BelongsToMany-relation.
+                        
+                            <form method="POST" action="{{route('store.profile')}}" enctype="multipart/form-data">
+                                @csrf
+                                <br>
+                               <u> <p>Name:</p></u>
+                                <input name="username" required type="text">
+                                <br>
+                                <u> <p>E-mail:</p></u>
+                                <input name='email' type="text" >
+                                <br>
+                                <u> <p>Title:</p></u>
+                                <input name='email' type="text" >
+                                <br>
+                                <u> <p>Message:</p></u>
+                                <textarea name='aboutme' rows="4" cols="50"></textarea>
+                                <br>
+                                <button type="submit">Send</button>
+                            </form>
                        
-                      - Usermodel komt van de creatie van een nieuw project in laravel.
-
-
-
-                       VIEW:
-
-
-                       CONTROLLER:
-
-                       -Authorisatie middleware van  de creatie van een nieuw project in laravel.
-        
-   
+                        
                     </main>
 
                     

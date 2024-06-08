@@ -35,6 +35,12 @@ new class extends Component
                     </x-nav-link>
                 <!-- HIERBOVEN ONLINE STATUS-->    
                 </div>
+                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    <x-nav-link :href="route('messages')" :active="request()->routeIs('messages')" wire:navigate>
+                        {{ __('Messages') }}
+                    </x-nav-link>
+                <!-- HIERBOVEN ONLINE STATUS-->    
+                </div>
             </div>
 
             <!-- Settings Dropdown -->
