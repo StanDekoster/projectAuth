@@ -6,7 +6,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Dashboard') }}
+            {{ __('Create Category') }}
         </h2>
     </x-slot>
 
@@ -23,18 +23,23 @@
                     <form method="POST" action="{{route('cat.store')}}" >
                         @csrf
                        <u> <p>Name:</p></u>
-                        <input name="name" required type="text">
+                       <br>
+                        <input name="name" required type="text" required maxlength="255">
                         <br>
                         <br><br>
-                        <button type="submit">Create</button>
+                        <b><button type="submit">Create</button></b>
 
                     </form>
                     <br>
                     <br>
+                    <u><a href="{{route('admin.faq')}}">Go Back<a></u>
+                    <br>
+                    <br>
+                    <br>
                     <br>
 
-                        @if(isset($tags))
-                        
+                        @if($tags->isEmpty())
+                        <p> No categories </p>
                         @foreach($tags as $tag)
                         
                         <h1>{{$tag->name}}</h1>
@@ -42,7 +47,14 @@
                         
                         @endforeach
                         @else
-                        <p> No categories </p>
+                       <b> <p>Categories:</p></b>
+                        <br>
+                        @foreach($tags as $tag)
+                        
+                        <h1>-{{$tag->name}}</h1>
+                        <br>
+                        
+                        @endforeach
                         @endif
                       
                 

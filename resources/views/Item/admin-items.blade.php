@@ -1,9 +1,14 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Dashboard') }}
+            {{ __('News Items') }}
         </h2>
     </x-slot>
+    @if (session('success'))
+    <div style="color: rgb(1, 17, 1); border: 1px solid black; padding: 10px; margin: 10px 0;width:fit-content">
+        {{ session('success') }}
+    </div>
+@endif
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
@@ -16,7 +21,7 @@
                 </div>
             </div>
             <br>
-
+           
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     @if(isset($items))
                     @foreach($items as $item)
@@ -29,10 +34,10 @@
                        <br><br>
                        
                         <img src="{{ asset('storage/' . $item->coverImage) }}" alt="coverImage" class="img-thumbnail" style="width: 150px; height: 150px;">
-                        <form action="{{ route('item.like', ['item' => $item->id]) }}" method="POST">
+                       <!-- <form action="{{ route('item.like', ['item' => $item->id]) }}" method="POST">
                             @csrf
                             <button type="submit">Like</button>
-                            </form>
+                            </form> -->
                         </div>
 
 
@@ -46,13 +51,13 @@
                        <br>
                        <br>
                        <br>
-                        <a href="{{route('item.edit', $item)}}">Edit post</a>
+                        <a href="{{route('item.edit', $item)}}">Edit Item</a>
 
                        <form action="{{ route('remove.item', $item->id) }}" method="POST">
                         @csrf
                         @method('DELETE')
                         <button type="submit" onclick="return confirm('Are you sure you want to delete this item?');">
-                            Remove post
+                            Remove Item
                         </button>
                     </form>
                 </div>

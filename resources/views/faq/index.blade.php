@@ -27,17 +27,12 @@
                         @if (Route::has('login'))
                             <livewire:welcome.navigation />
                         @endif
+                        <h1 style="font-size: 400%">Q&A</h1>
                     </header>
 
                     <main>
-                    
                             @if(isset($tags))
-                            
-
                             @foreach($tags as $tag)
-
-                                
-                                
                                     @if($tag->faq->isEmpty())
                                     
                                     
@@ -70,9 +65,12 @@
                        
                         @if($faq->tags->isEmpty()) 
                         
-                        <div style="border: 2px solid rgb(24, 24, 27);border-radius: 10px; margin:5px; padding:5px">
+                        <div style="border: 2px solid rgb(24, 24, 27);border-radius: 10px; margin:5px; padding:5px;
+                        overflow-wrap: break-word;
+                        word-break: break-word;">
                             
-                                <strong>Q:</strong> {{ $faq->question }}<br><br>
+                                <strong><b>Q: {{ $faq->question }}</b></strong> <br>
+                                &<br>
                                 <strong>A:</strong> {{ $faq->answer }}
                              
                         

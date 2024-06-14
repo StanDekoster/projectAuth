@@ -18,7 +18,7 @@ class ItemSeeder extends Seeder
         DB::Table('items')->insert([
             [
                 'user_id'=> 1,
-                'title'=>'Post van  admin',
+                'title'=>'Post 1',
                 'description' => 'Beschrijving van Admin',
                 'coverImage' =>'coverImages/appel.jpg',
                 'created_at' => Carbon::now(),

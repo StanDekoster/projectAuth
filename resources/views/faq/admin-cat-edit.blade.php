@@ -6,7 +6,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Dashboard') }}
+            {{ __('Edit Category') }}
         </h2>
     </x-slot>
 
@@ -23,8 +23,8 @@
                     <form method="POST" action="{{route('cat.update',$tag)}}" >
                         @csrf
                         @method('PUT')
-                       <u> <p>Name:</p></u>
-                        <input name="name" required type="text" value="{{$tag->name}}">
+                       <u> <p>Name:</p></u><br>
+                        <input name="name" required type="text" value="{{$tag->name}}" required maxlength="255">
                         <br>
                         <br><br>
                         <button type="submit">Edit</button>
@@ -66,8 +66,21 @@
                         <br>
                         @foreach($tags as $tag)
                         
-                        <h1>{{$tag->name}}</h1>
-                        <br>
+                        <div style=" display: flex; align-items: center;" >
+                       <div>
+                            <h1>{{$tag->name}}</h1>
+                       </div>
+                        <div style="position:absolute; margin-left:30%">
+                        <form action="{{ route('cat.remove', $tag->id) }}" method="POST">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" onclick="return confirm('Are you sure you want to delete this Category?');">
+                               <u>Remove</u> 
+                            </button>
+                        </form>
+                    </div>
+                        <br><br>
+                    </div>
                         
                         
                         @endforeach

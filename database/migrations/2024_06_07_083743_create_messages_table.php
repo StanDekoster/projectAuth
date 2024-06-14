@@ -14,6 +14,12 @@ return new class extends Migration
         Schema::create('messages', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
+            $table->string('title')->nullable();
+            $table->string('body');
+            $table->string('senderName')->nullable();
+            $table->string('sender');
+            $table->boolean('read')->default(false);
+            $table->string('recipient');
         });
     }
 

@@ -48,7 +48,15 @@ class ItemController extends Controller
      */
     public function create()
     {
-        return view('Item.create-item');
+        
+        if (Auth::check() && Auth::user()->isAdmin) {
+           
+            return view('Item.create-item');
+        }
+
+        
+        return view('admin.restricted');
+        
     }
 
     /**
@@ -56,32 +64,37 @@ class ItemController extends Controller
      */
     public function store(Request $request)
     {
-        $validator = $request->validate([
-            'title' => 'required|max:255',
-            'description' =>'required|max:255',
-            'coverImage' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+         
+        if (Auth::check() && Auth::user()->isAdmin) {
+           
+            $validationData = $request->validate([
+                'title' => 'required|max:255',
+                'description' =>'required|max:10000',
+                'coverImage' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+    
+            ]);
+    
+            $item = new Item;
+            $item->user_id = Auth::id();
+            $item->title = $validationData['title'];
+            $item->description = $validationData['description'];
+            if ($request->hasFile('coverImage')) {
+                $coverImagePath = $request->file('coverImage')->store('coverImages', 'public');
+                $item->coverImage = $coverImagePath;
+            }
+            else{
+                return redirect()->back()->with('failure','No image provided');
+            }
+           
+    
+            $item->save();
 
-        ]);
+            return redirect(route('admin.items'))->with('success', 'Newsitem successfully created.');
 
-        $item = new Item;
-        $item->user_id = Auth::id();
-        $item->title = $validator['title'];
-        $item->description = $validator['description'];
-        $coverImagePath = $request->file('coverImage')->store('coverImages', 'public');
-        $item->coverImage = $coverImagePath;
+        }
 
-       
         
-        
-        
-
-        $item->save();
-        
-       
-
-        return redirect()->route('admin.items');
-        
-
+        return view('admin.restricted');
         
     }
 
@@ -94,7 +107,7 @@ class ItemController extends Controller
 
     }
 
-    public function visitorshow(Item $item)
+    public function visitorShow(Item $item)
     {
         return view('visitor.details-item', compact('item'));
 
@@ -105,7 +118,16 @@ class ItemController extends Controller
      */
     public function edit(Item $item)
     {
-        return view('Item.edit-item')->with('item',$item );
+      
+
+        if (Auth::check() && Auth::user()->isAdmin) {
+           
+            return view('Item.edit-item')->with('item',$item );
+        }
+
+        
+        return view('admin.restricted');
+        
     }
 
     /**
@@ -113,29 +135,39 @@ class ItemController extends Controller
      */
     public function update(Request $request, Item $item)
     {
-        $validator = $request->validate([
-            'title' => 'required|max:255',
-            'description' =>'required',
-            'coverImage' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048,'
-        ]);
+        
 
-        if ($request->hasFile('coverImage')) {
-            // Delete old coverImage if it exists
-            if ($item->coverImage) {
-                Storage::delete($item->coverImage);
+        if (Auth::check() && Auth::user()->isAdmin) {
+           
+            $validationData = $request->validate([
+                'title' => 'required|max:255',
+                'description' =>'required',
+                'coverImage' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048,'
+            ]);
+    
+            if ($request->hasFile('coverImage')) {
+                // Delete old coverImage if it exists
+                if ($item->coverImage) {
+                    Storage::delete($item->coverImage);
+                }
+        
+                // Store new coverImage
+                $coverImagePath = $request->file('coverImage')->store('coverImages', 'public');
+                $item->coverImage = $coverImagePath;
             }
     
-            // Store new coverImage
-            $coverImagePath = $request->file('coverImage')->store('coverImages', 'public');
-            $item->coverImage = $coverImagePath;
+            $item->title = $validationData['title'];
+            $item->description = $validationData['description'];
+    
+            $item->save();
+    
+            return redirect(route('admin.items'))->with('success', 'Newsitem successfully edited.');
+
         }
 
-        $item->title = $validator['title'];
-        $item->description = $validator['description'];
-
-        $item->save();
-
-        return redirect(route('admin.items'));
+        
+        return view('admin.restricted');
+        
     }
 
     /**
@@ -143,9 +175,19 @@ class ItemController extends Controller
      */
     public function destroy(Item $item)
     {
-        $item->delete();
+       
+
+        if (Auth::check() && Auth::user()->isAdmin) {
+           
+            $item->delete();
 
         
-        return redirect()->route('dashboard');
+            return redirect(route('admin.items'))->with('success', 'Newsitem successfully removed.');
+
+        }
+
+        
+        return view('admin.restricted');
+        
     }
 }

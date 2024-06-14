@@ -6,25 +6,26 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Dashboard') }}
+            {{ __('FAQ Admin Index') }}
         </h2>
     </x-slot>
 
   
     <br>                  
-    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+    <div style="margin-bottom:10px;" class="max-w-7xl mx-auto sm:px-6 lg:px-8">
            
         <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-            <div class="p-6 text-gray-900">
-                <a href="{{route("admin.faq.create")}}"><u>>Create QA<</u><a>
+            <div  class="p-6 text-gray-900">
+                <a href="{{route("admin.faq.create")}}"><u>Create Q&A</u><a>
             </div>   
         </div>
 </div> 
+
 <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
 
     <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
         <div class="p-6 text-gray-900">
-            <a href="{{route("admin.cat.create")}}"><u>>Create Category<</u><a>
+            <a href="{{route("admin.cat.create")}}"><u>Create Category</u><a>
         </div>   
     </div>
 </div> 
@@ -36,7 +37,7 @@
                 
        
     <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-        {{ __('Categories and their respective Q&A pairs') }}
+        {{ __('Categories and their Q&A pairs') }}
     </h2>
     <br>
     @if(isset($tags))
@@ -51,7 +52,7 @@
             <br><br>
             <ul>
                 @if($tag->faq->isEmpty())
-                <li>No FAQs for this category.</li>
+                <li>No FAQs in this category.</li>
                 
                 
                 @else

@@ -25,9 +25,17 @@ class FAQController extends Controller
     public function adminIndex()
     {
         
-        $tags =Tag::All();
-        $faqs = FAQ::All();
-        return view('faq.admin-faq', compact('tags','faqs'));
+        
+
+        if (Auth::check() && Auth::user()->isAdmin) {
+           
+            $tags =Tag::All();
+            $faqs = FAQ::All();
+            return view('faq.admin-faq', compact('tags','faqs'));
+        }
+
+        
+        return view('admin.restricted');
     }
 
 
@@ -36,9 +44,18 @@ class FAQController extends Controller
      */
     public function create()
     {
-        $faqs = FAQ::All();
-        $tags = Tag::All();
-        return view('faq.admin-faq-create',compact('faqs','tags'));
+       
+
+        if (Auth::check() && Auth::user()->isAdmin) {
+           
+            $tags =Tag::All();
+            $faqs = FAQ::All();
+            return view('faq.admin-faq', compact('tags','faqs'));
+            
+        }
+
+        
+        return view('admin.restricted');
     }
 
     /**
@@ -46,41 +63,42 @@ class FAQController extends Controller
      */
     public function store(Request $request)
     {
-        $validator = $request->validate([
-            'question' => 'required|max:255',
-            'answer' =>'required|max:255',
-            
+        
+        
 
-        ]);
-
-        $faq = new Faq;
-      
-        $faq->question = $validator['question'];
-        $faq->answer = $validator['answer'];
-        $faq->save();
-        //chatGPT
-        $selectedTags = array_keys($request->except('_token', 'question', 'answer'));
-
-        // Find the tags by their names
-        $selectedTags = array_keys($request->except('_token', 'question', 'answer'));
-
-        // Find the tags by their names
-        $selectedTags = $request->input('tags',[]);
+        if (Auth::check() && Auth::user()->isAdmin) {
+           
+            $validator = $request->validate([
+                'question' => 'required|max:255',
+                'answer' =>'required|max:10000',
+                
     
-        // Attach the FAQ to the selected tags
-        $faq->tags()->attach($selectedTags);
-       
+            ]);
+    
+            $faq = new Faq;
+          
+            $faq->question = $validator['question'];
+            $faq->answer = $validator['answer'];
+            $faq->save();
+            //chatGPT
+            $selectedTags = array_keys($request->except('_token', 'question', 'answer'));
+    
+            // Find the tags by their names
+            $selectedTags = array_keys($request->except('_token', 'question', 'answer'));
+    
+            // Find the tags by their names
+            $selectedTags = $request->input('tags',[]);
         
-        
-        
+            // Attach the FAQ to the selected tags
+            $faq->tags()->attach($selectedTags);
+           
+    
+            return redirect(route('admin.faq', compact('tags','faqs')))->with('success', 'Q&A successfully created.');
+
+        }
 
         
-        
-       
-
-        return redirect()->route('admin.faq');
-        
-
+        return view('admin.restricted');
         
     }
 
@@ -97,8 +115,16 @@ class FAQController extends Controller
      */
     public function edit(FAQ $faq)
     {
-        $tags = Tag::All();
-            return view('faq.admin-faq-edit',compact('faq','tags'));
+       
+
+            if (Auth::check() && Auth::user()->isAdmin) {
+           
+                $tags = Tag::All();
+                return view('faq.admin-faq-edit',compact('faq','tags'));
+            }
+    
+            
+            return view('admin.restricted');
     }
 
     /**
@@ -106,36 +132,35 @@ class FAQController extends Controller
      */
     public function update(Request $request, FAQ $faq)
     {
-        $validatorData = $request->validate([
-            'question' => 'required|max:255',
-            'answer' =>'required|max:255',
-            
+       
 
-        ]);
-
-        
-      
-        $faq->question = $validatorData['question'];
-        $faq->answer = $validatorData['answer'];
-        $faq->save();
-        //chatGPT
-        $selectedTags = array_keys($request->except('_token', 'question', 'answer'));
-
-        // Find the tags by their names
-        $selectedTags = $request->input('tags',[]);
+        if (Auth::check() && Auth::user()->isAdmin) {
+           
+            $validatorData = $request->validate([
+                'question' => 'required|max:255',
+                'answer' =>'required|max:10000',
+                
     
-        // Attach the FAQ to the selected tags
-        $faq->tags()->sync($selectedTags);
-       
+            ]);
+            $faq->question = $validatorData['question'];
+            $faq->answer = $validatorData['answer'];
+            $faq->save();
+            //chatGPT
+            $selectedTags = array_keys($request->except('_token', 'question', 'answer'));
+    
+            // Find the tags by their names
+            $selectedTags = $request->input('tags',[]);
         
-        
-        
+            // Attach the FAQ to the selected tags
+            $faq->tags()->sync($selectedTags);
+           
+    
+            return redirect(route('admin.faq', compact('tags','faqs')))->with('success', 'Q&A successfully edited.');;
+
+        }
 
         
-        
-       
-
-        return redirect()->route('admin.faq');
+        return view('admin.restricted');
     }
 
     /**
@@ -143,7 +168,17 @@ class FAQController extends Controller
      */
     public function destroy(FAQ $faq)
     {
-        $faq->delete();
-        return redirect()->route('admin.faq');
+       
+
+
+        if (Auth::check() && Auth::user()->isAdmin) {
+           
+            $faq->delete();
+            return redirect(route('admin.faq', compact('tags','faqs')))->with('success', 'Q&A successfully removed.');;
+
+        }
+
+        
+        return view('admin.restricted');
     }
 }

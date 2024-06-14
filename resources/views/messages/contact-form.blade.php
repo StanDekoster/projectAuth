@@ -25,25 +25,39 @@
                         @if (Route::has('login'))
                             <livewire:welcome.navigation />
                         @endif
+                        <h1 style="font-size: 400%">Contact</h1>
                     </header>
 
                     <main>
-                       
+                        @if (session('success'))
+                        <div style="color: rgb(1, 17, 1); border: 1px solid black; padding: 10px; margin: 10px 0;width:fit-content">
+                            {{ session('success') }}
+                        </div>
+                    @endif
+                    @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
                         
-                            <form method="POST" action="{{route('store.profile')}}" enctype="multipart/form-data">
+                            <form method="POST" action="{{route('send.contact.form','message')}}" >
                                 @csrf
                                 <br>
                                <u> <p>Name:</p></u>
-                                <input name="username" required type="text">
+                                <input name="senderName" required type="text"  maxlength="255" >
                                 <br>
                                 <u> <p>E-mail:</p></u>
-                                <input name='email' type="text" >
+                                <input name='sender' required type="email" required maxlength="255" required>
                                 <br>
                                 <u> <p>Title:</p></u>
-                                <input name='email' type="text" >
+                                <input name='title' type="text"  maxlength="255">
                                 <br>
                                 <u> <p>Message:</p></u>
-                                <textarea name='aboutme' rows="4" cols="50"></textarea>
+                                <textarea name='body' rows="4" cols="50"  maxlength="255" required></textarea>
                                 <br>
                                 <button type="submit">Send</button>
                             </form>

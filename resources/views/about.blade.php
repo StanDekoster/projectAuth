@@ -27,28 +27,38 @@
                         @if (Route::has('login'))
                             <livewire:welcome.navigation />
                         @endif
+
+                        <h1 style="font-size: 400%">About</h1>
+                        
                     </header>
 
                     <main>
-                       MODEL:
 
-                        -Grotendeels van
-                       Slides van Backend-web : https://canvas.ehb.be/courses/33788/files/2795558?module_item_id=638169
+                        <h1>About this project:</h1>
+                        <br>
+                        This is a project to hopefully achieve a passing grade for my "Project Laravel Werkstuk".
+                        <br>
+                        It is designed to meet the "Functional minimum requirements" and 
+                         has two additional features:
+                         <br><br>
+
+                         -A way for the administrator(s) to send a response e-mail to a message sent in the contact form.
+                         <br>
+                         -A messaging system for administrator(s) and user(s)
+                         <br><br><br><br>
+                        <H1>Sources:</H1>
+                        <br>
+                       - https://laravel.com/docs/11.x/installation
                        
-                       -ChatGPT voor BelongsToMany-relation.
+                       <br><br>
+                       - https://https://canvas.ehb.be/courses/33788/modules
                        
-                      - Usermodel komt van de creatie van een nieuw project in laravel.
+                       <br><br>
+                       - https://chatgpt.com/
 
-
-
-                       VIEW:
-
-
-                       CONTROLLER:
-
-                       -Authorisatie middleware van  de creatie van een nieuw project in laravel.
-        
-   
+                       <br><br>
+                       <br><br>
+                      Made By : Stan Dekoster
                     </main>
 
                     

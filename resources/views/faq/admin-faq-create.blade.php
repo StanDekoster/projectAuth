@@ -6,7 +6,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Dashboard') }}
+            {{ __('Create Q&A') }}
         </h2>
     </x-slot>
 
@@ -24,14 +24,16 @@
                         @csrf
                         
                        <u> <p>Question:</p></u>
-                        <input name="question"  required type="text">
+                        <input name="question"  required type="text" required maxlength="100">
                         <br><br>
                         
                         <u> <p>Answer</p></u>
-                        <textarea name='answer' rows="4" cols="50"></textarea>
+                        <textarea name='answer' rows="4" cols="50" required maxlength="10000"></textarea>
                         <br><br>
 
-                        
+                        @if($tags->isEmpty())
+                        <u>No categories to add to</u>
+                        @else
                         <u>Part of category:</u>
                         <br>
                         <br>
@@ -40,7 +42,7 @@
                         <label><input type="checkbox" name="tags[]" value="{{$tag->id}}">  {{$tag->name}}</label>
                         <br>
                         @endforeach
-                        
+                        @endif
                         <br><br>
                         <button type="submit">Create</button>
 

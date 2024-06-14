@@ -25,6 +25,7 @@
                         @if (Route::has('login'))
                             <livewire:welcome.navigation />
                         @endif
+                        <h1 style="font-size: 400%">News</h1>
                     </header>
 
                     <main>

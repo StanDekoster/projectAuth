@@ -33,14 +33,22 @@ new class extends Component
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')" wire:navigate>
                         {{ __('Dashboard') }}
                     </x-nav-link>
-                <!-- HIERBOVEN ONLINE STATUS-->    
+                   
                 </div>
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     <x-nav-link :href="route('messages')" :active="request()->routeIs('messages')" wire:navigate>
                         {{ __('Messages') }}
                     </x-nav-link>
-                <!-- HIERBOVEN ONLINE STATUS-->    
+                 
                 </div>
+                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    <x-nav-link :href="route('welcome')" :active="request()->routeIs('welcome')" wire:navigate>
+                        {{ __('Visitor Page') }}
+                    </x-nav-link>
+                 
+                </div>
+                
+
             </div>
 
             <!-- Settings Dropdown -->

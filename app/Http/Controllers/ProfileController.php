@@ -7,6 +7,7 @@ use App\Models\Profile;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Storage;
 
 class ProfileController extends Controller
 {
@@ -15,7 +16,7 @@ class ProfileController extends Controller
      */
     public function index()
     {
-        //
+        return view('profile');
     }
 
     /**
@@ -38,7 +39,7 @@ class ProfileController extends Controller
             'username' => 'required|max:255',
             'email' => 'nullable|string|email|max:255|unique:profiles,email,',  //chatgpt        
             'birthday' => 'nullable|date',
-            'avatar' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'avatar' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'aboutme' => 'required|string', 
         ]);
 
@@ -52,16 +53,24 @@ class ProfileController extends Controller
         $profile->username = $validator['username'];
         $profile->email = $validator['email'];
         $profile->birthday = $validator['birthday'];
-        $avatarPath = $request->file('avatar')->store('avatars', 'public');
-        $profile->avatar = $avatarPath;
+    
+
+        if ($request->hasFile('avatar')) {
+            $avatarImagePath = $request->file('avatar')->store('avatars', 'public');
+            $profile->avatar = $avatarImagePath;
+        }
+        else{
+            return redirect()->back()->with('failure','No avatar image provided : Please upload an avatar');
+        }
         $profile->aboutme = $validator['aboutme'];
 
 
         $profile->save();
         
        
+        return redirect()->route('profile')->with('success','Profile successfully made');
 
-        return redirect()->route('dashboard');
+        
     }
 
     /**
@@ -128,8 +137,9 @@ class ProfileController extends Controller
         $profile->save();
         
        
+        return redirect()->route('profile')->with('success','Profile successfully edited');
 
-        return redirect()->route('profile');
+       
     }
 
     /**

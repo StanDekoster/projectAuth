@@ -6,25 +6,23 @@
     </x-slot>
 
     <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+        <div  class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900">
-                    {{ __("You're logged in!") }}
-                </div>
+               
 
             
             
-                <div  class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                    <p>ID:</p><p>{{$item->id}}
+                <div style="padding:20px" class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                    
                         <form method="POST" action="{{route('item.update', $item)}}"enctype="multipart/form-data">
                             @csrf
                             @method('PUT')
                     
                     
                            <u> <p>Title:</p></u>
-                            <input name='title' type="text" value="{{ $item->title }}">
+                            <input name='title' type="text" value="{{ $item->title }}" required maxlength="255">
                             <br>
-                    
+                            <br>
                             <u> <p>Cover image:</p></u>
                           
                         
@@ -32,14 +30,20 @@
             
                 <img src="{{ asset('storage/' . $item->coverImage) }}" id="preview" src="#" alt="New Avatar Preview" class="img-thumbnail" style=" width: 150px; height: 150px;">
             
-            <input type="file" name="coverImage" id="coverImage"  onchange="previewImage(event)">
+            <input type="file" name="coverImage" id="coverImage"  onchange="previewImage(event)" accept="image/jpeg,image/png,image/jpg,image/gif,image/svg">
                        
                         <br>
+                        <br>
                             <u> <p>Description:</p></u>
-                            <textarea name='description' rows="4" cols="50">{{$item->description}}</textarea>
+                            <textarea name='description' rows="4" cols="50" required maxlength="10000">{{$item->description}}</textarea>
+                            <br>
                             <br>
                             <button type="submit">Edit</button>
                         </form>
+                        <br>
+                        <hr>
+                        <br>
+                        <a href="{{route('admin.items')}}">Go Back<a>
                         <script>
                             function previewImage(event) {
                                 var reader = new FileReader();

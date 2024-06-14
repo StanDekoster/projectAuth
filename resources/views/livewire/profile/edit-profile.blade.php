@@ -11,31 +11,35 @@
                
             
             
-                <div  class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                <div style="padding:20px" class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <form method="POST" action="{{route('update.profile',$profile)}}" enctype="multipart/form-data">
                         @csrf
                         @method('PUT') 
-                        <br>
+                        <br><br>
                        <u> <p>Username:</p></u>
                         <input name="username" required type="text" value="{{$profile->username}}">
-                        <br>
+                        <br><br>
                         <u> <p>E-mail:</p></u>
                         <input name='email' type="text" value="{{$profile->email}}">
-                        <br>
+                        <br><br>
                         <u> <p>Birthday:</p></u>
                         <input name='birthday' type="date" value="{{$profile->birthday}}">
-                        <br>
-                        <u> <p>Avatar:</p></u> <img src="{{ asset('storage/' . $profile->avatar) }}" alt="Avatar" class="img-thumbnail" style="width: 150px; height: 150px;">
-                        <input type="file" name="avatar" id="avatar" value="{{$profile->avatar}}">
+                        <br><br>
+                        <u> <p>Avatar:</p></u> <img src="{{ asset('storage/' . $profile->avatar) }}" id="preview" alt="Avatar" class="img-thumbnail" style="width: 150px; height: 150px;">
 
-                        <br>
+                        <input type="file" name="avatar" id="avatar" value="{{$profile->avatar}}" onchange="previewImage(event)" accept="image/jpeg,image/png,image/jpg,image/gif,image/svg">
+
+                        <br><br>
                         <u> <p>About me:</p></u>
                         <textarea name='aboutme' rows="4" cols="50" >{{$profile->aboutme}}</textarea>
-                        <br>
+                        <br><br>
                         <button type="submit">Edit</button>
                     </form>
-                
-                
+                    <br>
+                    <hr>
+                    <br>
+                    <a href="{{route('profile')}}">Go Back<a> 
+                        <br><br>
                     @if ($errors->any())
                     <div class="alert alert-danger">
                         <ul>
@@ -46,7 +50,18 @@
                     </div>
                 @endif
                 </div>
-           
         </div>
     </div>
+
+    <script>
+        function previewImage(event) {
+            var reader = new FileReader();
+            reader.onload = function(){
+                var output = document.getElementById('preview');
+                output.src = reader.result;
+                output.style.display = 'block';
+            }
+            reader.readAsDataURL(event.target.files[0]);
+        }
+        </script>
 </x-app-layout>

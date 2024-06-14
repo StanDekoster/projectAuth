@@ -6,7 +6,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Dashboard') }}
+            {{ __('Edit Q&A') }}
         </h2>
     </x-slot>
 
@@ -24,13 +24,15 @@
                         @csrf
                          @method('PUT')
                        <u> <p>Question:</p></u>
-                        <input name="question"  value="{{$faq->question}}">
+                        <input name="question"  value="{{$faq->question}}" required maxlength="255">
                         <br><br>
                         
                         <u> <p>Answer</p></u>
-                        <textarea name='answer' rows="4" cols="50">{{$faq->answer}}</textarea>
+                        <textarea name='answer' rows="4" cols="50" required maxlength="10000">{{$faq->answer}}</textarea>
                         <br><br>
-
+                        @if($tags->isEmpty())
+                        <u>No categories to add to</u>
+                        @else
                         
                         <u>Part of category:</u>
                         <br>
@@ -43,7 +45,7 @@
                              {{ $tag->name }}</label>
                         <br>
                         @endforeach
-                        
+                        @endif
                         <br><br>
                         <div>
                         <button type="submit">Edit</button> 

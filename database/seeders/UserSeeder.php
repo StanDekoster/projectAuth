@@ -20,22 +20,20 @@ class UserSeeder extends Seeder
                     'name' =>'admin',
                     'email'=>'admin@ehb.be',
                     'password' => Hash::make('Password!321'),//chatgpt
-                    'isAdmin' =>true,
-                    'isWorker' =>true
+                    'isAdmin' =>true
                 ],
                 [
                     'name' =>'Ronny',
                     'email'=>'ronny@ronny.ronny',
                     'password' => Hash::make('ronny123'),//chatgpt
-                    'isAdmin' =>false,
-                    'isWorker' =>true
+                    'isAdmin' =>false
                 ],
                 [
                     'name' =>'Cindy',
                     'email'=>'cindy@cindy.cindy',
                     'password' => Hash::make('cindy123'),//chatgpt
-                    'isAdmin' =>false,
-                    'isWorker' =>false
+                    'isAdmin' =>false
+                   
                 ],
             ]);
     }

@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Tag;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+
 
 class TagController extends Controller
 {
@@ -12,8 +14,18 @@ class TagController extends Controller
      */
     public function index()
     {
+       
+
+       
+       if (Auth::check() && Auth::user()->isAdmin) {
+           
         $tags = Tag::All();
        return view('faq.admin-cat-create',compact('tags'));
+
+    }
+
+    
+    return view('admin.restricted');
     }
 
     /**
@@ -29,23 +41,32 @@ class TagController extends Controller
      */
     public function store(Request $request)
     {
-        $validator = $request->validate([
-            'name' => 'required|max:255',
+        
+
+        if (Auth::check() && Auth::user()->isAdmin) {
+           
+            $validator = $request->validate([
+                'name' => 'required|max:255',
+                
+    
+            ]);
+    
+            $tag = new Tag;
+           
+            $tag->name = $validator['name'];
+        
             
-
-        ]);
-
-        $tag = new Tag;
-       
-        $tag->name = $validator['name'];
+    
+            $tag->save();
+            
+           
+    
+            return redirect()->route('admin.cat.create');
+    
+        }
     
         
-
-        $tag->save();
-        
-       
-
-        return redirect()->route('admin.cat.create');
+        return view('admin.restricted');
     }
 
     /**
@@ -61,8 +82,17 @@ class TagController extends Controller
      */
     public function edit(Tag $tag)
     {
-        $tags = Tag::All();
-        return view('faq.admin-cat-edit',compact('tag','tags'));
+        
+
+        if (Auth::check() && Auth::user()->isAdmin) {
+           
+            $tags = Tag::All();
+            return view('faq.admin-cat-edit',compact('tag','tags'));
+    
+        }
+    
+        
+        return view('admin.restricted');
     }
 
     /**
@@ -70,18 +100,29 @@ class TagController extends Controller
      */
     public function update(Request $request, Tag $tag)
     {
-        $validatorData = $request->validate([
-            'name' => 'required|max:255',           
-
-        ]);
-
         
-      
-        $tag->name = $validatorData['name'];
+
+
+
+        if (Auth::check() && Auth::user()->isAdmin) {
+           
+            $validatorData = $request->validate([
+                'name' => 'required|max:255',           
+    
+            ]);
+    
+            
+          
+            $tag->name = $validatorData['name'];
+            
+            $tag->save();
+            //chatGPT
+            return redirect(route('admin.faq'));
+    
+        }
+    
         
-        $tag->save();
-        //chatGPT
-        return redirect(route('admin.faq'));
+        return view('admin.restricted');
     }
 
     /**
@@ -89,8 +130,16 @@ class TagController extends Controller
      */
     public function destroy(Tag $tag)
     {
-        $tag->delete();
+        
 
-        return redirect(route('admin.faq'));
+        if (Auth::check() && Auth::user()->isAdmin) {
+            $tag->delete();
+
+            return redirect(route('admin.faq'));
+    
+        }
+    
+        
+        return view('admin.restricted');
     }
 }
